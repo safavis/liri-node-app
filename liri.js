@@ -3,6 +3,7 @@ var keys = require("./keys.js");
 var Spotify = require('node-spotify-api');
 var axios=require("axios")
 var moment=require("moment")
+var fs=require("fs")
 var spotify = new Spotify(keys.spotify);
 
 let [, , ...op]=process.argv
@@ -28,7 +29,7 @@ switch(op[0])
   .request('https://api.spotify.com/v1/search?q=track:"'+track_name+'"&type=track')
   .then(function(data) {
     console.log(`The artist name: ${data.tracks.items[0].album.artists[0].name}`); 
-    console.log(data.tracks.items[0].name); 
+    console.log(`The album name:${data.tracks.items[0].album.name}`); 
 
 })
   .catch(function(err) {
@@ -67,7 +68,13 @@ switch(op[0])
             console.log(`Actors in the movie:${r.data.Actors}`)})
         .catch(e=>console.log(e))
     break;
-    case('do'):
-            
+    case('do-wat-it-says'):
+            fs.readFile('random.txt','utf8',(e,data)=>{
+                if(e){console.log(e)}
+                else{
+                    op=data
+                }
+        })
+        console.log(op)    
     break;
 }
